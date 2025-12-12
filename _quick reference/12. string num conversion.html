@@ -1,0 +1,359 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>C String Conversion Quick Reference</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/monokai.min.css">
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            max-width: 900px;
+            margin: 40px auto;
+            padding: 20px;
+            background: #f5f5f5;
+            color: #333;
+        }
+        h1 {
+            color: #2c3e50;
+            border-bottom: 3px solid #3498db;
+            padding-bottom: 10px;
+        }
+        h2 {
+            color: #34495e;
+            margin-top: 30px;
+            border-left: 4px solid #3498db;
+            padding-left: 10px;
+        }
+        h3 {
+            color: #555;
+            margin-top: 20px;
+        }
+        pre {
+            margin: 10px 0;
+            border-radius: 5px;
+            overflow-x: auto;
+        }
+        pre code {
+            font-family: 'Consolas', 'Monaco', 'Courier New', monospace;
+            font-size: 14px;
+            line-height: 1.5;
+        }
+        .warning {
+            background: #fff3cd;
+            border-left: 4px solid #ffc107;
+            padding: 10px;
+            margin: 10px 0;
+        }
+        .info {
+            background: #d1ecf1;
+            border-left: 4px solid #17a2b8;
+            padding: 10px;
+            margin: 10px 0;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 15px 0;
+            background: white;
+        }
+        th, td {
+            border: 1px solid #ddd;
+            padding: 10px;
+            text-align: left;
+        }
+        th {
+            background: #3498db;
+            color: white;
+        }
+        tr:nth-child(even) {
+            background: #f9f9f9;
+        }
+        code {
+            background: #e8e8e8;
+            padding: 2px 6px;
+            border-radius: 3px;
+            font-family: 'Consolas', 'Monaco', monospace;
+            font-size: 13px;
+        }
+        pre code {
+            background: none;
+            padding: 0;
+        }
+    </style>
+</head>
+<body>
+    <h1>C String Conversion Quick Reference</h1>
+    <p>Quick reference for <code>atoi</code>, <code>atof</code>, and <code>sscanf</code> functions.</p>
+
+    <h2>atoi / atol - String to Integer</h2>
+    
+    <h3>Header</h3>
+    <pre><code class="language-c">#include &lt;stdlib.h&gt;</code></pre>
+
+    <h3>Function Signatures</h3>
+    <pre><code class="language-c">int atoi(const char *str);
+long atol(const char *str);</code></pre>
+
+    <h3>Basic Examples</h3>
+    <pre><code class="language-c">#include &lt;stdio.h&gt;
+#include &lt;stdlib.h&gt;
+
+int main() {
+    char *str1 = "42";
+    char *str2 = "-123";
+    char *str3 = "  456";    // Leading whitespace OK
+    char *str4 = "789abc";   // Stops at first non-digit
+    
+    printf("atoi(\"%s\") = %d\n", str1, atoi(str1));  // 42
+    printf("atoi(\"%s\") = %d\n", str2, atoi(str2));  // -123
+    printf("atoi(\"%s\") = %d\n", str3, atoi(str3));  // 456
+    printf("atoi(\"%s\") = %d\n", str4, atoi(str4));  // 789
+    
+    return 0;
+}</code></pre>
+
+    <div class="warning">
+        <strong>⚠ Limitations:</strong>
+        <ul>
+            <li>No error detection mechanism</li>
+            <li>Returns 0 for invalid input (cannot distinguish from actual "0")</li>
+            <li>Undefined behavior on overflow</li>
+            <li>No way to detect partial conversion</li>
+        </ul>
+    </div>
+
+    <h2>atof - String to Floating Point</h2>
+    
+    <h3>Function Signature</h3>
+    <pre><code class="language-c">double atof(const char *str);</code></pre>
+
+    <h3>Examples</h3>
+    <pre><code class="language-c">#include &lt;stdio.h&gt;
+#include &lt;stdlib.h&gt;
+
+int main() {
+    char *str1 = "3.14159";
+    char *str2 = "-2.5";
+    char *str3 = "1.23e-4";  // Scientific notation
+    char *str4 = "  42.7";   // Leading whitespace
+    
+    printf("atof(\"%s\") = %f\n", str1, atof(str1));  // 3.141590
+    printf("atof(\"%s\") = %f\n", str2, atof(str2));  // -2.500000
+    printf("atof(\"%s\") = %e\n", str3, atof(str3));  // 1.230000e-04
+    printf("atof(\"%s\") = %.1f\n", str4, atof(str4)); // 42.7
+    
+    return 0;
+}</code></pre>
+
+    <h2>sscanf - Formatted String Parsing</h2>
+    
+    <h3>Header</h3>
+    <pre><code class="language-c">#include &lt;stdio.h&gt;</code></pre>
+
+    <h3>Function Signature</h3>
+    <pre><code class="language-c">int sscanf(const char *str, const char *format, ...);</code></pre>
+
+    <div class="info">
+        <strong>Return Value:</strong> Number of successfully parsed items, or <code>EOF</code> on error.
+    </div>
+
+    <h3>Basic Parsing Examples</h3>
+    <pre><code class="language-c">#include &lt;stdio.h&gt;
+
+int main() {
+    int num;
+    float fval;
+    char word[50];
+    
+    // Parse single integer
+    sscanf("42", "%d", &num);
+    printf("Integer: %d\n", num);  // 42
+    
+    // Parse float
+    sscanf("3.14", "%f", &fval);
+    printf("Float: %.2f\n", fval);  // 3.14
+    
+    // Parse string (stops at whitespace)
+    sscanf("Hello", "%s", word);
+    printf("Word: %s\n", word);  // Hello
+    
+    return 0;
+}</code></pre>
+
+    <h3>Multiple Values</h3>
+    <pre><code class="language-c">int main() {
+    int a, b, c;
+    char name[50];
+    float price;
+    
+    // Parse multiple integers
+    sscanf("10 20 30", "%d %d %d", &a, &b, &c);
+    printf("%d, %d, %d\n", a, b, c);  // 10, 20, 30
+    
+    // Mixed types
+    sscanf("Apple 2.99", "%s %f", name, &price);
+    printf("%s costs $%.2f\n", name, price);  // Apple costs $2.99
+    
+    return 0;
+}</code></pre>
+
+    <h3>Format Specifiers</h3>
+    <table>
+        <tr>
+            <th>Specifier</th>
+            <th>Type</th>
+            <th>Description</th>
+        </tr>
+        <tr>
+            <td><code>%d</code></td>
+            <td>int*</td>
+            <td>Decimal integer</td>
+        </tr>
+        <tr>
+            <td><code>%i</code></td>
+            <td>int*</td>
+            <td>Integer (auto-detect base)</td>
+        </tr>
+        <tr>
+            <td><code>%u</code></td>
+            <td>unsigned int*</td>
+            <td>Unsigned decimal</td>
+        </tr>
+        <tr>
+            <td><code>%f</code>, <code>%e</code>, <code>%g</code></td>
+            <td>float*</td>
+            <td>Floating point</td>
+        </tr>
+        <tr>
+            <td><code>%lf</code></td>
+            <td>double*</td>
+            <td>Double precision</td>
+        </tr>
+        <tr>
+            <td><code>%s</code></td>
+            <td>char*</td>
+            <td>String (stops at whitespace)</td>
+        </tr>
+        <tr>
+            <td><code>%c</code></td>
+            <td>char*</td>
+            <td>Single character</td>
+        </tr>
+        <tr>
+            <td><code>%x</code></td>
+            <td>unsigned int*</td>
+            <td>Hexadecimal</td>
+        </tr>
+        <tr>
+            <td><code>%o</code></td>
+            <td>unsigned int*</td>
+            <td>Octal</td>
+        </tr>
+    </table>
+
+    <h3>Advanced Patterns</h3>
+    <pre><code class="language-c">int main() {
+    char str[100];
+    int day, month, year;
+    int hex_val;
+    char c;
+    
+    // Parse date format
+    sscanf("2024-12-25", "%d-%d-%d", &year, &month, &day);
+    printf("Date: %02d/%02d/%d\n", day, month, year);
+    
+    // Parse hexadecimal
+    sscanf("0xFF", "%x", &hex_val);
+    printf("Hex value: %d\n", hex_val);  // 255
+    
+    // Width specifier - read only N characters
+    sscanf("HelloWorld", "%5s", str);
+    printf("First 5 chars: %s\n", str);  // Hello
+    
+    // Skip characters with *
+    sscanf("abc:123", "%*[^:]:%d", &day);  // Skip until ':', then parse int
+    printf("Number: %d\n", day);  // 123
+    
+    return 0;
+}</code></pre>
+
+    <h3>Checking Return Value</h3>
+    <pre><code class="language-c">int main() {
+    int x, y;
+    int result;
+    
+    // Good practice: check how many items were parsed
+    result = sscanf("42 56", "%d %d", &x, &y);
+    if (result == 2) {
+        printf("Parsed both: %d and %d\n", x, y);
+    } else {
+        printf("Parse failed, got %d items\n", result);
+    }
+    
+    // Check for partial parse
+    result = sscanf("123 abc", "%d %d", &x, &y);
+    if (result != 2) {
+        printf("Only parsed %d items\n", result);  // Only parsed 1 items
+    }
+    
+    return 0;
+}</code></pre>
+
+    <h3>Character Class Matching</h3>
+    <pre><code class="language-c">int main() {
+    char buffer[100];
+    
+    // %[...] - match character set
+    sscanf("abc123", "%[abc]", buffer);
+    printf("Matched: %s\n", buffer);  // abc
+    
+    // %[^...] - match anything EXCEPT character set
+    sscanf("hello world", "%[^ ]", buffer);
+    printf("Until space: %s\n", buffer);  // hello
+    
+    // Parse until comma
+    sscanf("John,Doe", "%[^,]", buffer);
+    printf("First name: %s\n", buffer);  // John
+    
+    return 0;
+}</code></pre>
+
+    <h2>Quick Comparison</h2>
+    <table>
+        <tr>
+            <th>Function</th>
+            <th>Use Case</th>
+            <th>Error Detection</th>
+            <th>Complexity</th>
+        </tr>
+        <tr>
+            <td><code>atoi</code></td>
+            <td>Simple integer conversion</td>
+            <td>None</td>
+            <td>Very simple</td>
+        </tr>
+        <tr>
+            <td><code>atof</code></td>
+            <td>Simple float conversion</td>
+            <td>None</td>
+            <td>Very simple</td>
+        </tr>
+        <tr>
+            <td><code>sscanf</code></td>
+            <td>Complex parsing, multiple values</td>
+            <td>Return value count</td>
+            <td>Flexible</td>
+        </tr>
+        <tr>
+            <td><code>strtol/strtod</code></td>
+            <td>Production code with error handling</td>
+            <td>Full error detection</td>
+            <td>More complex</td>
+        </tr>
+    </table>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
+    <script>hljs.highlightAll();</script>
+</body>
+</html>
