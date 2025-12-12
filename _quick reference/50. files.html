@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>C File I/O Quick Reference</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            max-width: 900px;
+            margin: 40px auto;
+            padding: 20px;
+            background: #f5f5f5;
+            line-height: 1.6;
+        }
+        h1 {
+            color: #2c3e50;
+            border-bottom: 3px solid #3498db;
+            padding-bottom: 10px;
+        }
+        h2 {
+            color: #34495e;
+            margin-top: 30px;
+            border-left: 4px solid #3498db;
+            padding-left: 10px;
+        }
+        h3 {
+            color: #555;
+            margin-top: 20px;
+        }
+        pre {
+            background: #2c3e50;
+            color: #ecf0f1;
+            padding: 15px;
+            border-radius: 5px;
+            overflow-x: auto;
+            border-left: 4px solid #3498db;
+        }
+        code {
+            font-family: 'Courier New', Courier, monospace;
+            font-size: 14px;
+        }
+        ul {
+            background: white;
+            padding: 20px 40px;
+            border-radius: 5px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+        li {
+            margin: 8px 0;
+        }
+        .section {
+            background: white;
+            padding: 20px;
+            margin: 20px 0;
+            border-radius: 5px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+    </style>
+</head>
+<body>
+    <h1>C File I/O Quick Reference</h1>
+
+    <div class="section">
+        <h2>Opening and Closing Files</h2>
+        <pre><code>FILE *fp = fopen("filename.txt", "mode");
+if (fp == NULL) {
+    perror("Error opening file");
+    return 1;
+}
+fclose(fp);</code></pre>
+    </div>
+
+    <div class="section">
+        <h2>File Modes</h2>
+        <ul>
+            <li><code>"r"</code> - read (file must exist)</li>
+            <li><code>"w"</code> - write (creates/truncates)</li>
+            <li><code>"a"</code> - append (creates if doesn't exist)</li>
+            <li><code>"r+"</code> - read/write (file must exist)</li>
+            <li><code>"w+"</code> - read/write (creates/truncates)</li>
+            <li><code>"a+"</code> - read/append</li>
+            <li>Add <code>b</code> for binary mode: <code>"rb"</code>, <code>"wb"</code>, etc.</li>
+        </ul>
+    </div>
+
+    <div class="section">
+        <h2>Reading</h2>
+        
+        <h3>Character by character:</h3>
+        <pre><code>int ch;
+while ((ch = fgetc(fp)) != EOF) {
+    putchar(ch);
+}</code></pre>
+
+        <h3>Line by line:</h3>
+        <pre><code>char buffer[256];
+while (fgets(buffer, sizeof(buffer), fp) != NULL) {
+    printf("%s", buffer);
+}</code></pre>
+
+        <h3>Formatted input:</h3>
+        <pre><code>int num;
+char str[50];
+fscanf(fp, "%d %s", &num, str);</code></pre>
+
+        <h3>Binary data:</h3>
+        <pre><code>size_t items_read = fread(buffer, size, count, fp);</code></pre>
+    </div>
+
+    <div class="section">
+        <h2>Writing</h2>
+        
+        <h3>Character:</h3>
+        <pre><code>fputc('A', fp);</code></pre>
+
+        <h3>String:</h3>
+        <pre><code>fputs("Hello\n", fp);</code></pre>
+
+        <h3>Formatted output:</h3>
+        <pre><code>fprintf(fp, "Value: %d\n", 42);</code></pre>
+
+        <h3>Binary data:</h3>
+        <pre><code>fwrite(data, size, count, fp);</code></pre>
+    </div>
+
+    <div class="section">
+        <h2>Common Patterns</h2>
+        
+        <h3>Read entire file to string:</h3>
+        <pre><code>fseek(fp, 0, SEEK_END);
+long size = ftell(fp);
+fseek(fp, 0, SEEK_SET);
+
+char *content = malloc(size + 1);
+fread(content, 1, size, fp);
+content[size] = '\0';</code></pre>
+
+        <h3>Copy file:</h3>
+        <pre><code>int ch;
+FILE *src = fopen("input.txt", "r");
+FILE *dst = fopen("output.txt", "w");
+while ((ch = fgetc(src)) != EOF) {
+    fputc(ch, dst);
+}</code></pre>
+    </div>
+</body>
+</html>

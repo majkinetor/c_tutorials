@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>C String Operations Manual</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 40px 20px;
+            color: #333;
+            background-color: #fff;
+        }
+        h1 {
+            color: #2c3e50;
+            border-bottom: 3px solid #3498db;
+            padding-bottom: 10px;
+            margin-top: 0;
+        }
+        h2 {
+            color: #34495e;
+            margin-top: 30px;
+            border-bottom: 2px solid #ecf0f1;
+            padding-bottom: 8px;
+        }
+        h3 {
+            color: #555;
+            margin-top: 25px;
+        }
+        code {
+            background-color: #f4f4f4;
+            padding: 2px 6px;
+            border-radius: 3px;
+            font-family: 'Courier New', Courier, monospace;
+            font-size: 0.9em;
+        }
+        pre {
+            background-color: #f6f8fa;
+            border: 1px solid #ddd;
+            border-left: 4px solid #3498db;
+            padding: 15px;
+            overflow-x: auto;
+            border-radius: 4px;
+            margin: 15px 0;
+        }
+        pre code {
+            background-color: transparent;
+            padding: 0;
+            font-size: 0.95em;
+            line-height: 1.5;
+        }
+        
+        /* Syntax highlighting styles */
+        .keyword { color: #d73a49; font-weight: bold; }
+        .string { color: #032f62; }
+        .comment { color: #6a737d; font-style: italic; }
+        .function { color: #6f42c1; }
+        .type { color: #005cc5; font-weight: bold; }
+        .number { color: #005cc5; }
+        .operator { color: #d73a49; }
+        
+        ul { margin: 10px 0; }
+        li { margin: 8px 0; }
+        
+        @media print {
+            body { padding: 20px; }
+            pre { page-break-inside: avoid; }
+            h2, h3 { page-break-after: avoid; }
+        }
+    </style>
+</head>
+<body>
+    <h1>C String Operations Manual</h1>
+
+    <h2>String Basics</h2>
+    <p>In C, strings are arrays of characters terminated by a null character (<code>\0</code>). String literals are enclosed in double quotes.</p>
+    
+    <pre><code><span class="type">char</span> str1[<span class="number">20</span>] = <span class="string">"Hello"</span>;
+<span class="type">char</span> str2[] = <span class="string">"World"</span>;  <span class="comment">// Size determined automatically</span>
+<span class="type">char</span> *str3 = <span class="string">"Constant"</span>; <span class="comment">// Points to string literal</span></code></pre>
+
+    <h2>String Declaration and Initialization</h2>
+    <pre><code><span class="type">char</span> str[<span class="number">50</span>];                    <span class="comment">// Uninitialized array</span>
+<span class="type">char</span> str[<span class="number">50</span>] = <span class="string">"Text"</span>;          <span class="comment">// Initialized with string</span>
+<span class="type">char</span> str[<span class="number">50</span>] = {<span class="string">'H'</span>,<span class="string">'i'</span>,<span class="string">'\0'</span>}; <span class="comment">// Character by character</span>
+<span class="type">char</span> str[] = <span class="string">"Auto-sized"</span>;      <span class="comment">// Compiler determines size</span></code></pre>
+
+    <h2>Essential String Functions</h2>
+    <p>Include the string library: <code>#include &lt;string.h&gt;</code></p>
+
+    <h3>strlen() - String Length</h3>
+    <pre><code><span class="type">size_t</span> <span class="function">strlen</span>(<span class="keyword">const</span> <span class="type">char</span> *str);</code></pre>
+    <p>Returns the number of characters before <code>\0</code>, excluding the null terminator.</p>
+    <pre><code><span class="type">char</span> text[] = <span class="string">"Hello"</span>;
+<span class="type">int</span> len = <span class="function">strlen</span>(text);  <span class="comment">// Returns 5</span></code></pre>
+
+    <h3>strcpy() - String Copy</h3>
+    <pre><code><span class="type">char</span> *<span class="function">strcpy</span>(<span class="type">char</span> *dest, <span class="keyword">const</span> <span class="type">char</span> *src);</code></pre>
+    <p>Copies <code>src</code> to <code>dest</code>, including the null terminator. Destination must have sufficient space.</p>
+    <pre><code><span class="type">char</span> dest[<span class="number">20</span>];
+<span class="function">strcpy</span>(dest, <span class="string">"Hello"</span>);</code></pre>
+
+    <h3>strncpy() - Safe String Copy</h3>
+    <pre><code><span class="type">char</span> *<span class="function">strncpy</span>(<span class="type">char</span> *dest, <span class="keyword">const</span> <span class="type">char</span> *src, <span class="type">size_t</span> n);</code></pre>
+    <p>Copies up to <code>n</code> characters. Does not automatically null-terminate if <code>src</code> is longer than <code>n</code>.</p>
+    <pre><code><span class="type">char</span> dest[<span class="number">20</span>];
+<span class="function">strncpy</span>(dest, <span class="string">"Hello World"</span>, <span class="number">5</span>);
+dest[<span class="number">5</span>] = <span class="string">'\0'</span>;  <span class="comment">// Manual null termination</span></code></pre>
+
+    <h3>strcat() - String Concatenation</h3>
+    <pre><code><span class="type">char</span> *<span class="function">strcat</span>(<span class="type">char</span> *dest, <span class="keyword">const</span> <span class="type">char</span> *src);</code></pre>
+    <p>Appends <code>src</code> to the end of <code>dest</code>. Destination must have enough space.</p>
+    <pre><code><span class="type">char</span> str[<span class="number">20</span>] = <span class="string">"Hello"</span>;
+<span class="function">strcat</span>(str, <span class="string">" World"</span>);  <span class="comment">// str becomes "Hello World"</span></code></pre>
+
+    <h3>strncat() - Safe Concatenation</h3>
+    <pre><code><span class="type">char</span> *<span class="function">strncat</span>(<span class="type">char</span> *dest, <span class="keyword">const</span> <span class="type">char</span> *src, <span class="type">size_t</span> n);</code></pre>
+    <p>Appends up to <code>n</code> characters from <code>src</code> to <code>dest</code>.</p>
+
+    <h3>strcmp() - String Comparison</h3>
+    <pre><code><span class="type">int</span> <span class="function">strcmp</span>(<span class="keyword">const</span> <span class="type">char</span> *str1, <span class="keyword">const</span> <span class="type">char</span> *str2);</code></pre>
+    <p>Returns:</p>
+    <ul>
+        <li>0 if strings are equal</li>
+        <li>Negative if str1 &lt; str2</li>
+        <li>Positive if str1 &gt; str2</li>
+    </ul>
+    <pre><code><span class="keyword">if</span> (<span class="function">strcmp</span>(str1, str2) == <span class="number">0</span>) {
+    <span class="comment">// Strings are equal</span>
+}</code></pre>
+
+    <h3>strncmp() - Compare N Characters</h3>
+    <pre><code><span class="type">int</span> <span class="function">strncmp</span>(<span class="keyword">const</span> <span class="type">char</span> *str1, <span class="keyword">const</span> <span class="type">char</span> *str2, <span class="type">size_t</span> n);</code></pre>
+    <p>Compares only the first <code>n</code> characters.</p>
+
+    <h3>strchr() - Find Character</h3>
+    <pre><code><span class="type">char</span> *<span class="function">strchr</span>(<span class="keyword">const</span> <span class="type">char</span> *str, <span class="type">int</span> c);</code></pre>
+    <p>Returns pointer to first occurrence of character <code>c</code>, or NULL if not found.</p>
+    <pre><code><span class="type">char</span> *pos = <span class="function">strchr</span>(<span class="string">"Hello"</span>, <span class="string">'l'</span>);  <span class="comment">// Points to first 'l'</span></code></pre>
+
+    <h3>strrchr() - Find Last Character</h3>
+    <pre><code><span class="type">char</span> *<span class="function">strrchr</span>(<span class="keyword">const</span> <span class="type">char</span> *str, <span class="type">int</span> c);</code></pre>
+    <p>Returns pointer to last occurrence of character <code>c</code>.</p>
+
+    <h3>strstr() - Find Substring</h3>
+    <pre><code><span class="type">char</span> *<span class="function">strstr</span>(<span class="keyword">const</span> <span class="type">char</span> *haystack, <span class="keyword">const</span> <span class="type">char</span> *needle);</code></pre>
+    <p>Returns pointer to first occurrence of substring, or NULL if not found.</p>
+    <pre><code><span class="type">char</span> *pos = <span class="function">strstr</span>(<span class="string">"Hello World"</span>, <span class="string">"World"</span>);</code></pre>
+
+    <h2>Manual String Operations</h2>
+
+    <h3>Manual Copy</h3>
+    <pre><code><span class="type">void</span> <span class="function">my_strcpy</span>(<span class="type">char</span> *dest, <span class="keyword">const</span> <span class="type">char</span> *src) {
+    <span class="type">int</span> i = <span class="number">0</span>;
+    <span class="keyword">while</span> ((dest[i] = src[i]) != <span class="string">'\0'</span>) {
+        i++;
+    }
+}</code></pre>
+
+    <h3>Manual Length</h3>
+    <pre><code><span class="type">int</span> <span class="function">my_strlen</span>(<span class="keyword">const</span> <span class="type">char</span> *str) {
+    <span class="type">int</span> len = <span class="number">0</span>;
+    <span class="keyword">while</span> (str[len] != <span class="string">'\0'</span>) {
+        len++;
+    }
+    <span class="keyword">return</span> len;
+}</code></pre>
+
+    <h3>Manual Concatenation</h3>
+    <pre><code><span class="type">void</span> <span class="function">my_strcat</span>(<span class="type">char</span> *dest, <span class="keyword">const</span> <span class="type">char</span> *src) {
+    <span class="type">int</span> i = <span class="number">0</span>, j = <span class="number">0</span>;
+    <span class="keyword">while</span> (dest[i] != <span class="string">'\0'</span>) i++;
+    <span class="keyword">while</span> ((dest[i++] = src[j++]) != <span class="string">'\0'</span>);
+}</code></pre>
+
+    <h2>Input/Output Functions</h2>
+    <p>Include: <code>#include &lt;stdio.h&gt;</code></p>
+
+    <h3>Reading Strings</h3>
+    <pre><code><span class="type">char</span> str[<span class="number">100</span>];
+<span class="function">scanf</span>(<span class="string">"%s"</span>, str);           <span class="comment">// Reads until whitespace</span>
+<span class="function">fgets</span>(str, <span class="number">100</span>, stdin);     <span class="comment">// Reads entire line, includes '\n'</span>
+<span class="function">gets</span>(str);                  <span class="comment">// Unsafe, deprecated</span></code></pre>
+
+    <h3>Printing Strings</h3>
+    <pre><code><span class="function">printf</span>(<span class="string">"%s\n"</span>, str);
+<span class="function">puts</span>(str);                  <span class="comment">// Adds newline automatically</span></code></pre>
+
+    <h2>Common Pitfalls</h2>
+    <ol>
+        <li><strong>Buffer overflow:</strong> Ensure destination has sufficient space</li>
+        <li><strong>Missing null terminator:</strong> Always ensure strings are null-terminated</li>
+        <li><strong>Uninitialized arrays:</strong> Initialize before use</li>
+        <li><strong>Modifying string literals:</strong> String literals are read-only</li>
+    </ol>
+</body>
+</html>

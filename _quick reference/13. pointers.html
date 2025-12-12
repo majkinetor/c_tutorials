@@ -1,0 +1,226 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>C Pointers Quick Reference</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Courier New', monospace;
+            background: #ffffff;
+            padding: 40px;
+            max-width: 900px;
+            margin: 0 auto;
+        }
+        
+        h1 {
+            text-align: center;
+            color: #2c3e50;
+            margin-bottom: 40px;
+            font-size: 28px;
+            border-bottom: 3px solid #34495e;
+            padding-bottom: 15px;
+        }
+        
+        .section {
+            margin-bottom: 35px;
+        }
+        
+        h2 {
+            color: #34495e;
+            font-size: 20px;
+            margin-bottom: 15px;
+        }
+        
+        .code {
+            background: #ecf0f1;
+            padding: 10px 15px;
+            border-left: 4px solid #3498db;
+            margin: 8px 0;
+            font-size: 14px;
+            color: #2c3e50;
+        }
+        
+        .comment {
+            color: #7f8c8d;
+            font-style: italic;
+            margin-left: 20px;
+        }
+        
+        .memory-diagram {
+            display: flex;
+            gap: 10px;
+            margin: 20px 0;
+            flex-wrap: wrap;
+        }
+        
+        .memory-box {
+            border: 2px solid #34495e;
+            background: #ecf0f1;
+            padding: 15px;
+            text-align: center;
+            min-width: 100px;
+            position: relative;
+        }
+        
+        .memory-address {
+            font-size: 11px;
+            color: #7f8c8d;
+            margin-bottom: 5px;
+        }
+        
+        .memory-value {
+            font-size: 14px;
+            color: #2c3e50;
+            font-weight: bold;
+        }
+        
+        .arrow {
+            color: #e74c3c;
+            font-size: 24px;
+            display: flex;
+            align-items: center;
+        }
+        
+        .array-container {
+            display: flex;
+            gap: 0;
+            margin: 20px 0;
+        }
+        
+        .array-cell {
+            border: 2px solid #34495e;
+            background: #ecf0f1;
+            padding: 15px 10px;
+            text-align: center;
+            width: 80px;
+            border-right: none;
+        }
+        
+        .array-cell:last-child {
+            border-right: 2px solid #34495e;
+        }
+        
+        .pointer-demo {
+            margin: 15px 0;
+            padding: 10px;
+            background: #f8f9fa;
+            border-radius: 5px;
+        }
+        
+        ul {
+            list-style: none;
+            padding-left: 20px;
+        }
+        
+        ul li {
+            margin: 8px 0;
+            color: #2c3e50;
+        }
+        
+        ul li:before {
+            content: "• ";
+            color: #e74c3c;
+            font-weight: bold;
+            margin-right: 8px;
+        }
+        
+        @media print {
+            body {
+                padding: 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <h1>C POINTERS QUICK REFERENCE</h1>
+    
+    <div class="section">
+        <h2>Declaration and Initialization:</h2>
+        <div class="code">int x = 42;</div>
+        <div class="code">int *p = &x; <span class="comment">// p holds address of x</span></div>
+        
+        <div class="memory-diagram">
+            <div class="memory-box">
+                <div class="memory-address">0x1000</div>
+                <div class="memory-value">x: 42</div>
+            </div>
+            <div class="arrow">←</div>
+            <div class="memory-box">
+                <div class="memory-address">0x2000</div>
+                <div class="memory-value">p: 0x1000</div>
+            </div>
+        </div>
+    </div>
+    
+    <div class="section">
+        <h2>Dereferencing:</h2>
+        <div class="code">int value = *p; <span class="comment">// read value at address</span></div>
+        <div class="code">*p = 100; <span class="comment">// write to address</span></div>
+    </div>
+    
+    <div class="section">
+        <h2>Pointer Arithmetic:</h2>
+        <div class="code">int arr[] = {10, 20, 30, 40};</div>
+        <div class="code">int *p = arr;</div>
+        
+        <div class="array-container">
+            <div class="array-cell">
+                <div class="memory-address">0x1000</div>
+                <div class="memory-value">10</div>
+            </div>
+            <div class="array-cell">
+                <div class="memory-address">0x1004</div>
+                <div class="memory-value">20</div>
+            </div>
+            <div class="array-cell">
+                <div class="memory-address">0x1008</div>
+                <div class="memory-value">30</div>
+            </div>
+            <div class="array-cell">
+                <div class="memory-address">0x100C</div>
+                <div class="memory-value">40</div>
+            </div>
+        </div>
+        
+        <div class="pointer-demo">
+            <div class="code">p++; <span class="comment">// moves 4 bytes (sizeof(int))</span></div>
+            <div class="code">p += 2; <span class="comment">// moves 8 bytes (2 * sizeof(int))</span></div>
+        </div>
+    </div>
+    
+    <div class="section">
+        <h2>Array Equivalence:</h2>
+        <div class="code">arr[2] ≡ *(arr + 2)</div>
+        <div class="code">&arr[2] ≡ arr + 2</div>
+    </div>
+    
+    <div class="section">
+        <h2>Common Pitfalls:</h2>
+        <ul>
+            <li>Dereferencing NULL/uninitialized</li>
+            <li>Using memory after free()</li>
+            <li>Buffer overruns</li>
+            <li>Confusing * in declaration vs use</li>
+        </ul>
+    </div>
+    
+    <div class="section">
+        <h2>NULL Pointer:</h2>
+        <div class="code">int *p = NULL; <span class="comment">// always initialize!</span></div>
+        <div class="code">if (p != NULL) { *p = 5; }</div>
+    </div>
+    
+    <div class="section">
+        <h2>Void Pointer:</h2>
+        <div class="code">void *generic = &x; <span class="comment">// any type</span></div>
+        <div class="code">int *typed = (int *)generic; <span class="comment">// cast needed</span></div>
+    </div>
+</body>
+</html>
