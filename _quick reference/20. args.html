@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>C Language argc and argv Example</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            max-width: 900px;
+            margin: 40px auto;
+            padding: 20px;
+            line-height: 1.6;
+            background-color: #f5f5f5;
+        }
+        h1 {
+            color: #333;
+            border-bottom: 3px solid #007acc;
+            padding-bottom: 10px;
+        }
+        h2 {
+            color: #007acc;
+            margin-top: 30px;
+        }
+        pre {
+            background-color: #1e1e1e;
+            color: #d4d4d4;
+            padding: 15px;
+            border-radius: 5px;
+            overflow-x: auto;
+            border-left: 4px solid #007acc;
+        }
+        code {
+            font-family: 'Consolas', 'Courier New', monospace;
+            font-size: 14px;
+        }
+        .keyword { color: #569cd6; }
+        .function { color: #dcdcaa; }
+        .string { color: #ce9178; }
+        .comment { color: #6a9955; }
+        .number { color: #b5cea8; }
+        ul {
+            background-color: white;
+            padding: 20px 40px;
+            border-radius: 5px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+        .section {
+            background-color: white;
+            padding: 20px;
+            margin: 20px 0;
+            border-radius: 5px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+    </style>
+</head>
+<body>
+    <h1>Simple Example: C Language argc and argv</h1>
+    
+    <div class="section">
+        <h2>Basic Example</h2>
+        <pre><code><span class="keyword">#include</span> <span class="string">&lt;stdio.h&gt;</span>
+
+<span class="keyword">int</span> <span class="function">main</span>(<span class="keyword">int</span> argc, <span class="keyword">char</span> *argv[]) {
+    <span class="function">printf</span>(<span class="string">"Number of arguments: %d\n"</span>, argc);
+    
+    <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; argc; i++) {
+        <span class="function">printf</span>(<span class="string">"argv[%d]: %s\n"</span>, i, argv[i]);
+    }
+    
+    <span class="keyword">return</span> <span class="number">0</span>;
+}</code></pre>
+    </div>
+
+    <div class="section">
+        <h2>Explanation</h2>
+        <ul>
+            <li><strong>argc</strong> (argument count) - number of command-line arguments, including the program name</li>
+            <li><strong>argv</strong> (argument vector) - array of strings containing the arguments</li>
+            <li><strong>argv[0]</strong> is always the program name</li>
+            <li><strong>argv[1]</strong> through <strong>argv[argc-1]</strong> are the actual arguments</li>
+        </ul>
+    </div>
+
+    <div class="section">
+        <h2>Example Usage</h2>
+        <pre><code>./program hello world 123</code></pre>
+        
+        <h3>Output:</h3>
+        <pre><code>Number of arguments: 4
+argv[0]: ./program
+argv[1]: hello
+argv[2]: world
+argv[3]: 123</code></pre>
+    </div>
+
+    <div class="section">
+        <h2>Practical Example - Simple Calculator</h2>
+        <pre><code><span class="keyword">#include</span> <span class="string">&lt;stdio.h&gt;</span>
+<span class="keyword">#include</span> <span class="string">&lt;stdlib.h&gt;</span>
+
+<span class="keyword">int</span> <span class="function">main</span>(<span class="keyword">int</span> argc, <span class="keyword">char</span> *argv[]) {
+    <span class="keyword">if</span> (argc != <span class="number">3</span>) {
+        <span class="function">printf</span>(<span class="string">"Usage: %s &lt;num1&gt; &lt;num2&gt;\n"</span>, argv[<span class="number">0</span>]);
+        <span class="keyword">return</span> <span class="number">1</span>;
+    }
+    
+    <span class="keyword">int</span> num1 = <span class="function">atoi</span>(argv[<span class="number">1</span>]);
+    <span class="keyword">int</span> num2 = <span class="function">atoi</span>(argv[<span class="number">2</span>]);
+    
+    <span class="function">printf</span>(<span class="string">"Sum: %d\n"</span>, num1 + num2);
+    
+    <span class="keyword">return</span> <span class="number">0</span>;
+}</code></pre>
+    </div>
+</body>
+</html>

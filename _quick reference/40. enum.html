@@ -1,0 +1,340 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>C Enum Quick Reference</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;600&family=Space+Mono:wght@700&family=Crimson+Pro:wght@600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg: #0a0e14;
+            --surface: #151b24;
+            --border: #2d3847;
+            --text: #e6e8eb;
+            --text-dim: #8c95a3;
+            --accent: #ff9e64;
+            --accent-bright: #ffb86c;
+            --keyword: #7dcfff;
+            --string: #9ece6a;
+            --comment: #565f73;
+            --number: #bb9af7;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            background: var(--bg);
+            color: var(--text);
+            font-family: 'IBM Plex Mono', monospace;
+            line-height: 1.6;
+            padding: 2rem 1rem;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        header {
+            border-left: 4px solid var(--accent);
+            padding-left: 1.5rem;
+            margin-bottom: 3rem;
+            animation: slideIn 0.6s ease-out;
+        }
+
+        h1 {
+            font-family: 'Space Mono', monospace;
+            font-size: 2.5rem;
+            font-weight: 700;
+            color: var(--accent-bright);
+            margin-bottom: 0.5rem;
+            letter-spacing: -0.02em;
+        }
+
+        .tagline {
+            font-size: 0.95rem;
+            color: var(--text-dim);
+            font-style: italic;
+        }
+
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(500px, 1fr));
+            gap: 2rem;
+            margin-bottom: 2rem;
+        }
+
+        .section {
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            padding: 1.5rem;
+            animation: fadeInUp 0.8s ease-out backwards;
+        }
+
+        .section:nth-child(1) { animation-delay: 0.1s; }
+        .section:nth-child(2) { animation-delay: 0.2s; }
+        .section:nth-child(3) { animation-delay: 0.3s; }
+        .section:nth-child(4) { animation-delay: 0.4s; }
+
+        h2 {
+            font-family: 'Crimson Pro', serif;
+            font-size: 1.5rem;
+            color: var(--accent);
+            margin-bottom: 1rem;
+            border-bottom: 2px solid var(--border);
+            padding-bottom: 0.5rem;
+        }
+
+        h3 {
+            font-size: 1rem;
+            color: var(--keyword);
+            margin-top: 1.5rem;
+            margin-bottom: 0.75rem;
+            font-weight: 600;
+        }
+
+        pre {
+            background: var(--bg);
+            border: 1px solid var(--border);
+            border-radius: 6px;
+            padding: 1rem;
+            overflow-x: auto;
+            margin: 1rem 0;
+            font-size: 0.9rem;
+            line-height: 1.5;
+            position: relative;
+        }
+
+        code {
+            font-family: 'IBM Plex Mono', monospace;
+        }
+
+        .keyword { color: var(--keyword); }
+        .type { color: var(--accent); }
+        .number { color: var(--number); }
+        .comment { color: var(--comment); }
+        .string { color: var(--string); }
+
+        ul {
+            list-style: none;
+            padding-left: 0;
+        }
+
+        li {
+            padding: 0.5rem 0;
+            padding-left: 1.5rem;
+            position: relative;
+        }
+
+        li::before {
+            content: "▹";
+            position: absolute;
+            left: 0;
+            color: var(--accent);
+            font-weight: bold;
+        }
+
+        .note {
+            background: rgba(255, 158, 100, 0.1);
+            border-left: 3px solid var(--accent);
+            padding: 1rem;
+            margin: 1rem 0;
+            border-radius: 4px;
+            font-size: 0.9rem;
+        }
+
+        .inline-code {
+            background: var(--bg);
+            color: var(--accent);
+            padding: 0.2rem 0.4rem;
+            border-radius: 3px;
+            font-size: 0.9em;
+            border: 1px solid var(--border);
+        }
+
+        footer {
+            margin-top: 3rem;
+            padding-top: 2rem;
+            border-top: 1px solid var(--border);
+            text-align: center;
+            color: var(--text-dim);
+            font-size: 0.85rem;
+        }
+
+        @keyframes slideIn {
+            from {
+                opacity: 0;
+                transform: translateX(-30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @media (max-width: 768px) {
+            .grid {
+                grid-template-columns: 1fr;
+            }
+            h1 {
+                font-size: 2rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>C Enum Quick Reference</h1>
+        <p class="tagline">Enumerated types for readable, type-safe constants</p>
+    </header>
+
+    <div class="grid">
+        <div class="section">
+            <h2>Basic Syntax</h2>
+            <pre><code><span class="keyword">enum</span> <span class="type">Day</span> {
+    MONDAY,      <span class="comment">// 0</span>
+    TUESDAY,     <span class="comment">// 1</span>
+    WEDNESDAY,   <span class="comment">// 2</span>
+    THURSDAY,    <span class="comment">// 3</span>
+    FRIDAY,      <span class="comment">// 4</span>
+    SATURDAY,    <span class="comment">// 5</span>
+    SUNDAY       <span class="comment">// 6</span>
+};
+
+<span class="keyword">enum</span> <span class="type">Day</span> today = WEDNESDAY;</code></pre>
+            <div class="note">
+                Values start at 0 by default and increment by 1
+            </div>
+        </div>
+
+        <div class="section">
+            <h2>Explicit Values</h2>
+            <pre><code><span class="keyword">enum</span> <span class="type">Status</span> {
+    ERROR = <span class="number">-1</span>,
+    SUCCESS = <span class="number">0</span>,
+    PENDING = <span class="number">1</span>,
+    COMPLETED = <span class="number">2</span>
+};
+
+<span class="keyword">enum</span> <span class="type">Flags</span> {
+    FLAG_A = <span class="number">1</span>,      <span class="comment">// 0x01</span>
+    FLAG_B = <span class="number">2</span>,      <span class="comment">// 0x02</span>
+    FLAG_C = <span class="number">4</span>,      <span class="comment">// 0x04</span>
+    FLAG_D = <span class="number">8</span>       <span class="comment">// 0x08</span>
+};</code></pre>
+        </div>
+
+        <div class="section">
+            <h2>Using typedef</h2>
+            <pre><code><span class="keyword">typedef enum</span> {
+    RED,
+    GREEN,
+    BLUE,
+    ALPHA
+} <span class="type">Color</span>;
+
+<span class="comment">// Cleaner usage without 'enum' keyword</span>
+<span class="type">Color</span> background = BLUE;</code></pre>
+            <div class="note">
+                <span class="inline-code">typedef</span> eliminates need to write <span class="inline-code">enum</span> repeatedly
+            </div>
+        </div>
+
+        <div class="section">
+            <h2>Switch Statements</h2>
+            <pre><code><span class="keyword">switch</span> (today) {
+    <span class="keyword">case</span> MONDAY:
+    <span class="keyword">case</span> TUESDAY:
+    <span class="keyword">case</span> WEDNESDAY:
+    <span class="keyword">case</span> THURSDAY:
+    <span class="keyword">case</span> FRIDAY:
+        printf(<span class="string">"Weekday\n"</span>);
+        <span class="keyword">break</span>;
+    <span class="keyword">case</span> SATURDAY:
+    <span class="keyword">case</span> SUNDAY:
+        printf(<span class="string">"Weekend\n"</span>);
+        <span class="keyword">break</span>;
+}</code></pre>
+        </div>
+
+        <div class="section">
+            <h2>Partial Assignment</h2>
+            <pre><code><span class="keyword">enum</span> <span class="type">Values</span> {
+    FIRST = <span class="number">10</span>,
+    SECOND,        <span class="comment">// 11</span>
+    THIRD,         <span class="comment">// 12</span>
+    RESET = <span class="number">0</span>,
+    NEXT           <span class="comment">// 1</span>
+};</code></pre>
+            <div class="note">
+                Unspecified values continue from previous + 1
+            </div>
+        </div>
+
+        <div class="section">
+            <h2>Bit Flags Pattern</h2>
+            <pre><code><span class="keyword">enum</span> <span class="type">Permissions</span> {
+    READ    = <span class="number">1 &lt;&lt; 0</span>,  <span class="comment">// 0x01</span>
+    WRITE   = <span class="number">1 &lt;&lt; 1</span>,  <span class="comment">// 0x02</span>
+    EXECUTE = <span class="number">1 &lt;&lt; 2</span>   <span class="comment">// 0x04</span>
+};
+
+<span class="keyword">int</span> perms = READ | WRITE;
+<span class="keyword">if</span> (perms & EXECUTE) {
+    <span class="comment">// Has execute permission</span>
+}</code></pre>
+        </div>
+
+        <div class="section">
+            <h2>Key Points</h2>
+            <ul>
+                <li>Enums are integers under the hood</li>
+                <li>Improve code readability vs magic numbers</li>
+                <li>No type safety - can assign any int value</li>
+                <li>Scope: enumerators are in the enclosing scope</li>
+                <li>Cannot have duplicate names in same scope</li>
+                <li>Use <span class="inline-code">sizeof(enum Type)</span> = <span class="inline-code">sizeof(int)</span></li>
+            </ul>
+        </div>
+
+        <div class="section">
+            <h2>Common Patterns</h2>
+            <h3>Size Tracking</h3>
+            <pre><code><span class="keyword">enum</span> <span class="type">Color</span> {
+    RED,
+    GREEN,
+    BLUE,
+    COLOR_COUNT  <span class="comment">// = 3</span>
+};</code></pre>
+
+            <h3>String Mapping</h3>
+            <pre><code><span class="keyword">const char*</span> day_names[] = {
+    <span class="string">"Monday"</span>, <span class="string">"Tuesday"</span>, <span class="string">"Wednesday"</span>,
+    <span class="string">"Thursday"</span>, <span class="string">"Friday"</span>,
+    <span class="string">"Saturday"</span>, <span class="string">"Sunday"</span>
+};
+
+printf(<span class="string">"%s\n"</span>, day_names[MONDAY]);</code></pre>
+        </div>
+    </div>
+
+    <footer>
+        C Enum Quick Reference | Generated with precision
+    </footer>
+</body>
+</html>
