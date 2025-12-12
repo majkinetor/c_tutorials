@@ -1,3 +1,11 @@
+- [Dynamic String](#dynamic-string)
+  - [What is demonstrated](#what-is-demonstrated)
+  - [Notes](#notes)
+  - [Functions](#functions)
+    - [Memory allocation](#memory-allocation)
+    - [Strings](#strings)
+
+
 # Dynamic String
 
 Write program that stores user input in string. 
