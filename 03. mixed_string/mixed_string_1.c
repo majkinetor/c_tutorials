@@ -34,9 +34,8 @@ char *mixed_string(char *A, char *B)
 
 int main(int argc, char *argv[]) 
 {
-    // if (argc < 3) { printf("Zahteva paramatere A i B"); return 1; }
-    char *A = "aaa";  //argv[1];
-    char *B = "bbbb"; //argv[2];
+    char *A = "aaa"; 
+    char *B = "bbbb";
     char *C = mixed_string(A, B);
 
     printf("\nString A: %s\n", A);
