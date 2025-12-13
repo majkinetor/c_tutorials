@@ -1,14 +1,65 @@
 # Simple parser
 
-Text file contains billing information in the text file [orders.csv](./order.csv) which is in the CSV format with the header.
+The text file contains billing information in the CSV file [orders.csv](./order.csv) which is in the CSV format with the header.
 
-Parse the CSV file and create array of items. Create function tht given the array as argument, calculates and returns the total price of the order. 
+Parse the CSV file and create array of items. Create a function which, given the array as an argument, calculates and returns the total price of the order. 
 
 ## Implementation details
 
-Array elements are of custom type struct which represents 1 CSV row. Read row by row (file lines) using `fgets`, then parse raw into the struct by finding `,` in it using `strchr`. Once struct type is filled with data, add it to the `orders` array. 
+Array elements are of custom type struct which represent 1 CSV row. Read row by row (file lines) using `fgets`, then parse the row into the struct by finding `,` in it using `strchr_from`. Once struct type is filled with data, add it to the `orders` array. 
 
 At the end, iterate over array and calculate total price using `for` loop.
+
+```c
+// Integrated strchr with start index
+char *strchr_from(const char *str, int c, size_t start_index) {
+    if (str == NULL) {
+        return NULL;
+    }
+    
+    // Check if start_index is within bounds
+    size_t len = strlen(str);
+    if (start_index >= len) {
+        return NULL;
+    }
+    
+    return strchr(str + start_index, c);
+}
+```
+
+```c
+typedef struct  {
+    char item_name[100];
+    int quantity;
+    double item_price;
+} Order_Item;
+
+Order_Item orders[100];
+int orders_count=1;
+
+while ( linija = citaj_iz_fajla('order.csv'))
+{
+    if (linja == EOF) { break }
+
+    //linija = "Coke Zero,3,2.5"
+
+    idxZarez1 = strchr_from(linja, ',', 0);
+    // idexZarez == 9
+    idxZarez2 = strchr_from(linja, ',', idxZarez1+1);
+    strstr(linija, 0, idxZarez)
+
+
+    i = orders[orders_count++];
+    i.item_name = 'Coke Zero';
+    i.quantity = 3;
+    i.item_price = 2.5
+}
+
+
+
+
+
+```
 
 ## CSV format
 
