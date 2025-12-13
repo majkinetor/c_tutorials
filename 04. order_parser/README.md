@@ -51,6 +51,19 @@ while ( linija = citaj_iz_fajla('order.csv'))
     }
     sub[end - start] = '\0';
 
+    // strtok varijanta
+    #include <string.h>
+
+    char line[] = "apple,banana,orange";
+    char *tokens[100];
+    int count = 0;
+
+    char *token = strtok(line, ",");
+    while (token != NULL) {
+        tokens[count++] = token;
+        token = strtok(NULL, ",");
+    }
+    
 
     i = orders[orders_count++];
     i.item_name = 'Coke Zero';
