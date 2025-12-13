@@ -42,11 +42,14 @@ while ( linija = citaj_iz_fajla('order.csv'))
     if (linja == EOF) { break }
 
     //linija = "Coke Zero,3,2.5"
-
     idxZarez1 = strchr_from(linja, ',', 0);
-    // idexZarez == 9
     idxZarez2 = strchr_from(linja, ',', idxZarez1+1);
-    strstr(linija, 0, idxZarez)
+    
+    // Copy from position start to end
+    for (int i = 0; i < end - start; i++) {
+        sub[i] = str[start + i];
+    }
+    sub[end - start] = '\0';
 
 
     i = orders[orders_count++];
