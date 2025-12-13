@@ -11,7 +11,7 @@ Array elements are of custom type struct which represent 1 CSV row. Read row by 
 At the end, iterate over array and calculate total price using `for` loop.
 
 ```c
-// Integrated strchr with start index
+// Integrated strchr with start index...
 char *strchr_from(const char *str, int c, size_t start_index) {
     if (str == NULL) {
         return NULL;
