@@ -13,4 +13,13 @@ Returns pointer to the array of trimmed tokens. Tokens are substrings separated 
 
 ## Examples
 
-See [test.c](./test.c).
+Running the example in [test.c](./test.c) gives the following result:
+
+```
+Input: '  Foa' Trimmed: 'Foa'
+Input: '123456789A' Reversed: 'A987654321'
+Tokens for 'Apple  ,1  ,   2.51':
+        0. 'Apple'
+        1. '1'
+        2. '2.51'
+```
